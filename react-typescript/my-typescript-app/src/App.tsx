@@ -1,4 +1,3 @@
-//import logo from './logo.svg';
 import React, { useEffect } from 'react'
 import Todo from './Todo'
 import Context from './UserContext'

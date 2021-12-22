@@ -24,8 +24,6 @@ export default function Todo() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         item.length !== 0 && setTodo([...Todo, item]);
-        //setItem((prevItem : string)=>`${item} ville, batman is gay`);
-        //the prevItemm does work and the string interpolation and concat works in updating state
         setItem("");
     }
     <link
