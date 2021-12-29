@@ -32,6 +32,9 @@ export default function Checkout() {
             <hr style={{ backgroundColor: "darkgrey", width: "80%" }} />
             <Grid container spacing={1} >
                 <Grid item xs={12} md={8}>
+                <p style={{textAlign: "center"}}>This is a mock checkout, no data is saved and stored on a database, you may input fake info as you wish</p>
+                <p style={{textAlign: "center"}}>Data is saved to your local storage so your shopping cart persists after reloading</p>
+                <p style={{textAlign: "center"}}>This website was made for the purpose of learning and is supposed to reflect my learning journey</p>
                     <form
                         style={{ display: "flex", alignContent: "center", justifyContent: "center", margin: "1%", padding: "2%", flexWrap: "wrap" }}
                         // flexWrap makes it a block field so it is on new line
