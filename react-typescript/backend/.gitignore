@@ -1,0 +1,7 @@
+# backend keys 
+node_modules
+.env
+
+
+#ignore compiled ts files
+dist
