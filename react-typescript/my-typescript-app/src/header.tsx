@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Badge from '@mui/material/Badge'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import Context from './UserContext'
+import Context from './CartContext'
 import { Link } from 'react-router-dom'
 
 export default function Header() {
@@ -25,6 +25,8 @@ export default function Header() {
                     }
                     <Button color="inherit" ><Link style={{ color: "white", textDecoration: "none" }} to="/">Home</Link></Button>
                     <Button color="inherit" ><Link style={{ color: "white", textDecoration: "none" }} to="/cart">cart</Link></Button>
+                    <Button color="inherit" ><Link style={{ color: "white", textDecoration: "none" }} to="/login">login</Link></Button>
+                    <Button color="inherit" ><Link style={{ color: "white", textDecoration: "none" }} to="/register">register</Link></Button>
                     {/* <Button color="inherit" ><Link style={{color : "white", textDecoration: "none"}} to="/cart/buy">buy</Link></Button> */}
                 </Toolbar>
             </AppBar>

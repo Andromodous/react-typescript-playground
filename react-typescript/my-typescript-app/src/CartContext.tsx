@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import { Product } from './cart';
 
 // type ContextType = {
@@ -6,6 +6,6 @@ import { Product } from './cart';
 //     setBasket: (basket: Product[]) => void
 // }
 
-const Context = React.createContext<Product[] | any>([])
+const Context = createContext<Product[] | any>([])
 
 export default Context;

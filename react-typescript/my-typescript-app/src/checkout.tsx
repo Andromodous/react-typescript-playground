@@ -1,4 +1,4 @@
-import Context from './UserContext'
+import Context from './CartContext'
 import { useContext, useState } from 'react'
 import { Product } from './cart'
 import Grid from '@mui/material/Grid'

@@ -9,7 +9,7 @@ import CardActions from '@mui/material/CardActions'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import Context from './UserContext'
+import Context from './CartContext'
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
