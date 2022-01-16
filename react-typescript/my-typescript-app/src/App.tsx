@@ -35,7 +35,7 @@ const App: React.FC = () => {
     }, [basket])
 
     useEffect(() => {
-        if (localStorage.getItem('token') !== null ) {
+        if (localStorage.getItem('token') !== null) {
             setToken(localStorage.getItem('token') as string);
         }
     }, [token])

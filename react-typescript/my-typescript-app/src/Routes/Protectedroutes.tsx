@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import AuthContext from '../AuthContext'
+import React from 'react'
+import FetchAuth from '../utils/fetchAuth';
 
 interface Props {
     component: JSX.Element,
@@ -7,9 +7,11 @@ interface Props {
 }
 
 const ProtectedRoutes: React.FC<Props> = ({ component, authenticated }: Props) => {
-    const [token] = useContext(AuthContext);
-
-    return !token ? component : <div></div>
+    const [token] = FetchAuth();
+    return !token ? 
+    component 
+    :
+    <div style={{textAlign: 'center', padding : 3, fontSize : 24}}>you are already signed in, please sign out</div>
 }
 
 

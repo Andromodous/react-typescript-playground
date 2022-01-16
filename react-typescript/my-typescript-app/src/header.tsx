@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -6,12 +5,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Badge from '@mui/material/Badge'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import Context from './CartContext'
 import { Link } from 'react-router-dom'
 import FetchAuth from './utils/fetchAuth'
+import FetchCart from './utils/fetchCart'
 
 export default function Header() {
-    const [cart] = useContext(Context);
+    const [cart] = FetchCart();
     const [token] = FetchAuth();
 
     return (

@@ -6,10 +6,18 @@ import Button from '@mui/material/Button'
 
 const Footer: React.FC = () => {
     return (
-        <footer style={{ display: "flex", justifyContent: "space-evenly", width: '100%' }} >
-            <Button variant="text" href='https://www.linkedin.com/in/berat-appak-ab99b7197/'><LinkedInIcon /></Button>
-            <Button variant="text" href='https://twitter.com/Dromodous'><TwitterIcon /></Button>
-            <Button variant="text" href='https://github.com/Andromodous'><GitHubIcon /></Button>
+        <footer style={{ width: '100%' }} >
+            <p style={{ textAlign : 'center', fontSize : 14}}>
+                this website is not intended to be serious, use this website at your discretion without any malicious intent
+            </p>
+            <p style={{ textAlign : 'center', fontSize : 14}}>
+                The purpose of this site is to showcase my technical skills
+            </p>
+            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+                <Button variant="text" href='https://www.linkedin.com/in/berat-appak-ab99b7197/'><LinkedInIcon /></Button>
+                <Button variant="text" href='https://twitter.com/Dromodous'><TwitterIcon /></Button>
+                <Button variant="text" href='https://github.com/Andromodous'><GitHubIcon /></Button>
+            </div>
         </footer>
     )
 }
