@@ -7,9 +7,13 @@ import Cart, { Product } from './cart'
 import ErrorBoundary from './ErrorBoundary'
 import CheckOut from './checkout'
 import Error from './Error'
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom"
 import { Login } from './Login'
 import Register from './Register'
+import Privateroutes from './Routes/Privateroutes'
+import Protectedroutes from './Routes/Protectedroutes'
+import Logout from './Logout'
+import Footer from './Footer'
 
 const App: React.FC = () => {
     const [basket, setBasket] = React.useState<Product[]>([])
@@ -23,13 +27,27 @@ const App: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(basket));
+        if (basket.length > 0)
+            localStorage.setItem('cart', JSON.stringify(basket));
+        else {
+            localStorage.removeItem('cart');
+        }
     }, [basket])
+
+    useEffect(() => {
+        if (localStorage.getItem('token') !== null ) {
+            setToken(localStorage.getItem('token') as string);
+        }
+    }, [token])
+
+    useEffect(() => {
+        if (token.length > 0) {
+            localStorage.setItem('token', token);
+        }
+    }, [token])
 
     return (
         <>
-            {/* does not work for event handlers like onClick */}
-
             <ErrorBoundary>
                 <AuthContext.Provider value={[token, setToken]}>
                     <Context.Provider value={[basket, setBasket]}>
@@ -37,12 +55,14 @@ const App: React.FC = () => {
                             <Header />
                             <Routes>
                                 <Route path="/" element={<Todo />} />
-                                <Route path="/cart" element={<Cart />} />
-                                <Route path="/cart/buy" element={<CheckOut />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/register" element={<Register />} />
+                                <Route path="/cart" element={<Privateroutes component={<Cart />} />} />
+                                <Route path="/cart/buy" element={<Privateroutes component={<CheckOut />} />} />
+                                <Route path="/login" element={<Protectedroutes component={<Login />} />} />
+                                <Route path="/logout" element={token ? <Logout /> : <Navigate to='/' />} />
+                                <Route path="/register" element={<Protectedroutes component={<Register />} />} />
                                 <Route path="*" element={<Error />} />
                             </Routes>
+                            <Footer />
                         </Router>
                     </Context.Provider>
                 </AuthContext.Provider>

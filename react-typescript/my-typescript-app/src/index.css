@@ -17,6 +17,10 @@ code {
     display: inline-block;
 }
 
+#site-name {
+    display: block;
+}
+
 @media only screen and (max-width: 500px) {
     #text-description {
         display: none;
@@ -25,10 +29,19 @@ code {
         max-width: 50vw;
     }
     #total {
-        width: 50vw;
+        width: 80vw;
     }
     #item-meta {
         display: block;
+    }
+    #site-name {
+        display: none;
+    }
+    #user-control button {
+        width: 50vw;
+    }
+    #chip {
+        display: none;
     }
 }
 

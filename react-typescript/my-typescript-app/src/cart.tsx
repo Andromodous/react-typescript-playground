@@ -8,10 +8,11 @@ import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import DeleteIcon from '@mui/icons-material/Delete'
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import Context from './CartContext'
-import React, { useContext } from 'react'
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import fetchCart from './utils/fetchCart'
+
 
 // use fake mock data API
 // https://jsonplaceholder.typicode.com/
@@ -28,12 +29,12 @@ export interface Product {
 interface IProps {
     cart: Product[],
     remove: (index: number) => void,
-    clear: (cart: Product[]) => void
+    setCart: (cart: Product[]) => void
 }
 
 const Cart: React.FC = () => {
-    const [cart, setCart] = React.useState<Product[]>([]);
-
+    // const [cart, setCart] = React.useState<Product[]>([]);
+    const [cart, setCart] = fetchCart();
     function addToCart(item: Product): void {
         const index = cart.findIndex((value: Product) => {
             return value.productID === item.productID;
@@ -41,9 +42,7 @@ const Cart: React.FC = () => {
         if (index !== -1) {
             const updatedCart = cart;
             updatedCart[index].quantity++;
-            const [item1, ...item2] = updatedCart;
-            console.log(item1, item2);
-            setCart([...updatedCart]); //how does this even make sense
+            setCart([...updatedCart]);
         }
         else {
             setCart([...cart, item]);
@@ -138,26 +137,24 @@ const Cart: React.FC = () => {
                     </Card>
                 </Grid>
             </Grid>
-            <ShoppingList remove={removeFromCart} cart={cart} clear={setCart} />
+            <ShoppingList remove={removeFromCart} cart={cart} setCart={setCart} />
         </>
     )
 }
 
-const ShoppingList: React.FC<IProps> = ({ remove, cart, clear }) => {
+const ShoppingList: React.FC<IProps> = ({ remove, cart, setCart }) => {
     const navigate = useNavigate();
-    const [, setBasket] = useContext(Context);
     var total: number = 0.00;
     cart.forEach((value) => total += value.price * value.quantity);
-    //try putting the total calc logic in parent component as that might update the child component 
     return (
         <Stack
             divider={<Divider orientation="horizontal" flexItem />}
-            spacing={1} sx={{ p: 5 }}>
+            spacing={2} sx={{ p: 3 }}>
             {cart.map((item: Product, index: number) => (
                 <li key={index} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div id="item" >
-                        <p>{item.item}</p>
-                        <p style={{ fontSize: "0.85rem", color: "darkgrey" }}><Chip label={item.company} /> | ${item.price.toFixed(2)} | Quantity : {item.quantity}</p>
+                        <p style={{fontSize : "0.9rem"}}>{item.item}</p>
+                        <p style={{ fontSize: "0.85rem", color: "darkgrey" }}><Chip label={item.company} id='chip'/> | ${item.price.toFixed(2)} | Quantity : {item.quantity}</p>
                     </div>
                     {item.description && <p id="text-description" style={{ fontSize: "10px", color: "darkgrey", width: "40%" }}>{item.description}</p>}
                     <div>
@@ -169,13 +166,16 @@ const ShoppingList: React.FC<IProps> = ({ remove, cart, clear }) => {
             {cart.length !== 0 &&
                 <div id="total" style={{ display: "flex", justifyContent: "space-evenly", margin: "1% auto" }}>
                     <p>Total : <b>${total.toFixed(2)}</b></p>
-                    <Button sx={{ color: "green", border: "1px solid green", m: 1 }} variant="outlined"
-                        onClick={() => {
-                            setBasket([...cart]);
-                            clear([]);
-                            navigate('/cart/buy');
-                        }} endIcon={<ShoppingBasketIcon />}>Pay Now </Button>
-                    <Button sx={{ color: "red", border: "1px solid red", m: 1 }} variant="outlined" onClick={() => clear([])} endIcon={<DeleteIcon />}>Clear </Button>
+                    <div id="user-control">
+                        <Button sx={{ color: "green", border: "1px solid green", m: 1 }} variant="outlined"
+                            onClick={() => {
+                                setCart([...cart]);
+                                navigate('/cart/buy');
+                            }} endIcon={<ShoppingBasketIcon />}>purchase </Button>
+                        <Button sx={{ color: "red", border: "1px solid red", m: 1 }} variant="outlined"
+                            onClick={() => setCart([])}
+                            endIcon={<DeleteIcon />}>Clear </Button>
+                    </div>
                 </div>
             }
         </Stack>

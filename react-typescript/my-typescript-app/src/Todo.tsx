@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import DeleteIcon from '@mui/icons-material/Delete'
-import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined'
 
 interface Props {
     name: string,
@@ -20,7 +20,6 @@ interface ListProps {
 export default function Todo() {
     const [Todo, setTodo] = useState<string[]>([]);
     const [item, setItem] = useState("");
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         item.length !== 0 && setTodo([...Todo, item]);
@@ -35,7 +34,7 @@ export default function Todo() {
             <Grid container>
                 <Grid item xs={12} sx={{ p: 2 }} justifyContent="center">
                     <form onSubmit={(e) => handleSubmit(e)} style={{ width: '100%' }}>
-                        <TextField fullWidth label="What do you want to do" id="outlined-basic" style={{ margin: "1% 0" }} value={item} onChange={(e) => { setItem(e.target.value) }} size="small" />
+                        <TextField fullWidth label="What do you want to do" id="outlined-basic" style={{ margin: "3% 0" }} value={item} onChange={(e) => { setItem(e.target.value) }} size="small" />
                         <Button variant="contained" type="submit">Submit Item here</Button>
                     </form>
                     <List todo={Todo} remove={(item) => setTodo(Todo.filter((todo: string) => todo !== item))} />

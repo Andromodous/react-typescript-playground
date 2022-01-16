@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import User from './models/users'
 import cors from 'cors'
-
+import cookieParser from 'cookie-parser'
 
 dotenv.config();
 const app: Application = express();
@@ -13,9 +13,11 @@ const port: number = 5000;
 
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
-mongoose.connect(process.env.MONGODB_CONNECTION).then((result) => console.log(`connected to mongoDB `))
+app.use(cookieParser());
+
+mongoose.connect(process.env.MONGODB_CONNECTION).then((_result) => console.log(`connected to mongoDB `))
     .catch(err => console.log(`failed to connect to mongoDB : ${err}`));
 
 
@@ -24,16 +26,17 @@ app.post('/register', async (req: Request, res: Response) => {
     var user = await User.findOne({ username }); // checks if user already exists
     try {
         if (!username || !password || !age || !gender) {
-            throw new Error("some field may be empty, try again");
+            throw new Error("some fields may be empty, try again");
         }
         if (user !== null) {
             throw new Error("username is taken");
         }
-        password = await bcrypt.hash(password, 10);
+        const salt = bcrypt.genSaltSync()
+        password = await bcrypt.hash(password, salt);
         user = new User({ username, password, age, gender });  //create new user document 
         const results = await user.save(); //save user to datebase
-        var token = jwt.sign({ userId: results._id as number }, process.env.PRIVATE_KEY, { expiresIn: 60 * 60 }); //create JWT token
-        res.status(200).json({ userId: results._id, token }); //response in JSON
+        var token = jwt.sign({ userId: results._id as number }, process.env.PRIVATE_KEY, { expiresIn: "20s" }); //create JWT token
+        res.status(200).json({ token }); //response in JSON
     }
     catch (e) {
         console.log("there is an error", e.message);
@@ -52,8 +55,8 @@ app.post('/signin', async (req: Request, res: Response) => {
         const verified: boolean = await bcrypt.compare(password, user.password);
         try {
             if (verified) {
-                var token = jwt.sign({ userID: user._id }, process.env.PRIVATE_KEY, { expiresIn: 60 * 60 }); //create JWT token 
-                user && res.status(200).json({ userID: user._id, token });
+                var token = jwt.sign({ userID: user._id }, process.env.PRIVATE_KEY, { expiresIn: "30m" }); //create JWT token 
+                user && res.status(200).json({ token });
             }
             else {
                 throw new Error("password is empty or incorrect");
@@ -70,6 +73,23 @@ app.post('/signin', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/authenticate', (req: Request, res: Response) => {
+    try {
+        const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+        if (!token) {
+            throw new Error("no token available");
+        }
+        jwt.verify(token, process.env.PRIVATE_KEY, (err, _result) => {
+            if (err) {
+                throw new Error('your jwt access token has expired');
+            }
+        });
+        res.status(200).json({ token, valid: true });
+    }
+    catch (e) {
+        res.status(401).json({ error: e.message, valid: false });
+    }
+})
 
 app.listen(port, () => {
     console.log(`Server is running at port ${port}.`);

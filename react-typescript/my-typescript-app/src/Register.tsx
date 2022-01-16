@@ -6,10 +6,10 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Alert from '@mui/material/Alert'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { useState, useContext } from 'react'
-import AuthContext from './AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import axios from 'axios'
+import FetchAuth from './utils/fetchAuth'
 
 const Register = () => {
     const [user, setUser] = useState<string>("");
@@ -18,8 +18,13 @@ const Register = () => {
     const [gender, setGender] = useState<string>("");
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
-    const [, setToken] = useContext(AuthContext);
+    const [, setToken] = FetchAuth();
+    const location = useLocation();
     const navigate = useNavigate();
+
+    //this was extremely awkward to deal with
+    var { state } = location as any;
+    state = state?.from ? state?.from : '/';
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -29,14 +34,20 @@ const Register = () => {
             }
         });
         try {
+            if (!user || !password || !gender || !age) {
+                throw new Error("some fields are empty, please fill them in");
+            }
+            if (gender === 'select') {
+                throw new Error("you must select a gender");
+            }
             if (response.data.error) {
                 throw new Error(response.data.error);
             }
             setToken(response.data.token);
             setSuccess("You have been signed in");
             setTimeout(() => {
-                navigate('/');
-            }, 2000);
+                navigate(state, { replace: true });
+            }, 1000);
         }
         catch (e: any) {
             console.log(e.message);
@@ -61,7 +72,7 @@ const Register = () => {
             <TextField label="enter age" value={age} sx={{ margin: "1% 0", width: "80%" }} size="small" type="number"
                 onChange={(e) => setAge(parseInt(e.target.value))} onClick={() => setError("")} />
             <FormControl fullWidth sx={{ margin: "1% 0", width: "80%" }}>
-                <InputLabel id="gender">Age</InputLabel>
+                <InputLabel id="gender">gender</InputLabel>
                 <Select
                     value={gender}
                     label="gender"
@@ -85,6 +96,7 @@ const Register = () => {
             </div>
             <div style={{ width: "80%" }}>
                 <Button type="submit" variant="contained" color="info" endIcon={<AccountCircleIcon />}>signup now</Button>
+                <span style={{ margin: "2%" }}>already have an account? <Link to="/login">Login here</Link></span>
             </div>
         </form>
 
