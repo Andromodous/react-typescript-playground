@@ -6,10 +6,10 @@ import dotenv from 'dotenv'
 import User from './models/users'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import { escape } from 'querystring'
 
 dotenv.config();
 const app: Application = express();
-const port: number = 5000;
 
 app.use(express.json());
 
@@ -36,7 +36,7 @@ app.post('/register', async (req: Request, res: Response) => {
         user = new User({ username, password, age, gender });  //create new user document 
         const results = await user.save(); //save user to datebase  
         var token = jwt.sign({ userId: results._id as number }, process.env.PRIVATE_KEY, { expiresIn: "20s" }); //create JWT token
-        res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 60 * 30 }).status(200).json({ token }); //response in JSON
+        res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 60 * 60 }).status(200).json({ token }); //response in JSON
     }
     catch (e) {
         console.log("there is an error", e.message);
@@ -56,7 +56,7 @@ app.post('/signin', async (req: Request, res: Response) => {
         try {
             if (verified) {
                 var token = jwt.sign({ userID: user._id }, process.env.PRIVATE_KEY, { expiresIn: "30m" }); //create JWT token
-                user && res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 60 * 30 }).status(200).json({ token });
+                user && res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 60 * 60 }).status(200).json({ token });
             }
             else {
                 throw new Error("password is empty or incorrect");
@@ -91,6 +91,6 @@ app.post('/authenticate', (req: Request, res: Response) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`Server is running at port ${port}.`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running at port ${process.env.PORT}.`);
 });
