@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect } from 'react'
 import FetchAuth from '../utils/fetchAuth'
-import RequireAuth from '../utils/RequireAuth'
+import axios, { AxiosError } from 'axios'
 
 interface Props {
     component: JSX.Element,
@@ -9,10 +9,23 @@ interface Props {
 }
 
 const Privateroutes: React.FC<Props> = ({ component, authenticated }: Props) => {
-    RequireAuth();
-    const [token] = FetchAuth();
-    // console.log(`the token is ${token}`);
+    const [token, setToken] = FetchAuth();
+
+    useEffect(() => {
+        axios.post('http://localhost:5000/authenticate', {}, {
+            withCredentials: true,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
+            }
+        }).catch((error: AxiosError) => {
+            if (error.response?.status === 401) {
+                setToken("");
+            }
+        })
+    })
     const location = useLocation();
+
     return token ? component : <Navigate to='/login' state={{ from: location.pathname, message: "you must sign in to look at cart" }} />
 }
 

@@ -12,7 +12,7 @@ interface Props {
     from?: string,
     message?: string
 }
-export const Login: React.FC<Props> = ({ from }) => {
+export const Login: React.FC = () => {
     const [user, setUser] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
@@ -43,9 +43,9 @@ export const Login: React.FC<Props> = ({ from }) => {
             }
             setUser('');
             setPassword('');
-            setToken(response.data.token);
             setSuccess('You have been signed in');
             setTimeout(() => {
+                setToken(response.data.token);
                 navigate(to as string, { replace: true });
             }, 1000);
         }
@@ -57,7 +57,9 @@ export const Login: React.FC<Props> = ({ from }) => {
 
     return (
         <>
-            <p style={{ textAlign: 'center', fontSize: 24 }}>{message}</p>
+            <p style={{ textAlign: 'center', fontSize: 24 }}>
+                {message}
+            </p>
             <form
                 style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', padding: '2%', flexWrap: 'wrap', width: '100%' }} onSubmit={(e) => handleSubmit(e)}>
                 <TextField label='enter username' value={user} sx={{ margin: '1% 0', width: '80%' }} size='small' helperText='username'

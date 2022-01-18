@@ -16,7 +16,7 @@ export default function Header() {
     return (
         <Box>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar sx={{justifyContent : 'space-evenly'}}>
                     <Typography variant="h6" component="span" sx={{ flexGrow: 1 }} id='site-name'>
                         Appak Estate
                     </Typography>
