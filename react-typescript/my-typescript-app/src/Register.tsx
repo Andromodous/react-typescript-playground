@@ -15,7 +15,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 const Register = () => {
     const [user, setUser] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [age, setAge] = useState<number | string>();
+    const [age, setAge] = useState<number | string>('');
     const [gender, setGender] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
@@ -45,14 +45,13 @@ const Register = () => {
             if (response.data.error) {
                 throw new Error(response.data.error);
             }
-            setToken(response.data.token);
             setSuccess('You have been signed in');
             setTimeout(() => {
+                setToken(response.data.token);
                 navigate(state, { replace: true });
             }, 1000);
         }
         catch (e: any) {
-            console.log(e.message);
             setError(e.message);
             setSuccess('');
         }

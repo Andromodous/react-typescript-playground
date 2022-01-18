@@ -7,10 +7,10 @@ import Button from '@mui/material/Button'
 const Footer: React.FC = () => {
     return (
         <footer style={{ width: '100%' }} >
-            <p style={{ textAlign : 'center', fontSize : 14}}>
+            <p style={{ textAlign: 'center', fontSize: 14 }}>
                 this website is not intended to be serious, use this website at your discretion without any malicious intent
             </p>
-            <p style={{ textAlign : 'center', fontSize : 14}}>
+            <p style={{ textAlign: 'center', fontSize: 14 }}>
                 The purpose of this site is to showcase my technical skills
             </p>
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>

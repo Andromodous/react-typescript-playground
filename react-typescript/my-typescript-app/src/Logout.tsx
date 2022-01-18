@@ -1,18 +1,27 @@
 import { useEffect } from 'react'
 import FetchAuth from './utils/fetchAuth'
 import { useNavigate } from 'react-router'
-import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box'
+import LinearProgress from '@mui/material/LinearProgress'
+import axios from 'axios'
 
 const Logout = () => {
-    const [, setToken] = FetchAuth();
+    const [token, setToken] = FetchAuth();
     const navigate = useNavigate();
     useEffect(() => {
-        setTimeout(() => {
-            setToken("");
-            localStorage.removeItem('token');
-            navigate('/');
-        }, 2000);
+        axios.post('http://localhost:5000/logout', {}, {
+            withCredentials: true,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'content-type': 'application/json'
+            }
+        }).then(() => {
+            setTimeout(() => {
+                setToken("");
+                localStorage.removeItem('token');
+                navigate('/');
+            }, 2000);
+        });
     })
     return (
         <>

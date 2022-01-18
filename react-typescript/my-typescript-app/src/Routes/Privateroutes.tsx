@@ -10,7 +10,6 @@ interface Props {
 
 const Privateroutes: React.FC<Props> = ({ component, authenticated }: Props) => {
     const [token, setToken] = FetchAuth();
-
     useEffect(() => {
         axios.post('http://localhost:5000/authenticate', {}, {
             withCredentials: true,
@@ -25,7 +24,6 @@ const Privateroutes: React.FC<Props> = ({ component, authenticated }: Props) => 
         })
     })
     const location = useLocation();
-
     return token ? component : <Navigate to='/login' state={{ from: location.pathname, message: "you must sign in to look at cart" }} />
 }
 

@@ -6,7 +6,6 @@ import dotenv from 'dotenv'
 import User from './models/users'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import { escape } from 'querystring'
 
 dotenv.config();
 const app: Application = express();
@@ -35,8 +34,8 @@ app.post('/register', async (req: Request, res: Response) => {
         password = await bcrypt.hash(password, salt);
         user = new User({ username, password, age, gender });  //create new user document 
         const results = await user.save(); //save user to datebase  
-        var token = jwt.sign({ userId: results._id as number }, process.env.PRIVATE_KEY, { expiresIn: "20s" }); //create JWT token
-        res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 60 * 60 }).status(200).json({ token }); //response in JSON
+        var token = jwt.sign({ userId: results._id as number }, process.env.PRIVATE_KEY, { expiresIn: "30m" }); //create JWT token
+        res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 30 * 60 }).status(200).json({ token }); //response in JSON
     }
     catch (e) {
         console.log("there is an error", e.message);
@@ -56,7 +55,7 @@ app.post('/signin', async (req: Request, res: Response) => {
         try {
             if (verified) {
                 var token = jwt.sign({ userID: user._id }, process.env.PRIVATE_KEY, { expiresIn: "30m" }); //create JWT token
-                user && res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 60 * 60 }).status(200).json({ token });
+                user && res.cookie('token', token, { sameSite: true, httpOnly: true, maxAge: 1000 * 30 * 60 }).status(200).json({ token });
             }
             else {
                 throw new Error("password is empty or incorrect");
@@ -89,6 +88,11 @@ app.post('/authenticate', (req: Request, res: Response) => {
     catch (e) {
         res.status(401).json({ error: e.message, valid: false });
     }
+})
+
+app.post('/logout', (_req: Request, res: Response) => {
+    // to access cookies req.cookies?.[TOKEN_NAME]
+    res.clearCookie('token').status(200).json({ message: 'you have signed out' });
 })
 
 app.listen(process.env.PORT, () => {

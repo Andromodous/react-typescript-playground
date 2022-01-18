@@ -34,18 +34,6 @@ const App: React.FC = () => {
         }
     }, [basket])
 
-    useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
-            setToken(localStorage.getItem('token') as string);
-        }
-    }, [token])
-
-    useEffect(() => {
-        if (token.length > 0) {
-            localStorage.setItem('token', token);
-        }
-    }, [token])
-
     return (
         <>
             <ErrorBoundary>
@@ -53,6 +41,7 @@ const App: React.FC = () => {
                     <Context.Provider value={[basket, setBasket]}>
                         <Router>
                             <Header />
+                            <div style={{minHeight : 'calc(85vh - 100px)', overflowX : 'hidden'}}>
                             <Routes>
                                 <Route path="/" element={<Todo />} />
                                 <Route path="/cart" element={<Privateroutes component={<Cart />} />} />
@@ -62,6 +51,7 @@ const App: React.FC = () => {
                                 <Route path="/register" element={<Protectedroutes component={<Register />} />} />
                                 <Route path="*" element={<Error />} />
                             </Routes>
+                            </div>
                             <Footer />
                         </Router>
                     </Context.Provider>

@@ -8,10 +8,10 @@ interface Props {
 
 const ProtectedRoutes: React.FC<Props> = ({ component, authenticated }: Props) => {
     const [token] = FetchAuth();
-    return !token ? 
-    component 
-    :
-    <div style={{textAlign: 'center', padding : 3, fontSize : 24}}>you are already signed in, please sign out</div>
+    return !token ?
+        component
+        :
+        <div style={{ textAlign: 'center', padding: 3, fontSize: 24 }}>Please sign out and sign in again</div>
 }
 
 
