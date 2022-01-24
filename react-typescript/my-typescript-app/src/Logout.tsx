@@ -9,7 +9,7 @@ const Logout = () => {
     const [token, setToken] = FetchAuth();
     const navigate = useNavigate();
     useEffect(() => {
-        axios.post('http://localhost:5000/logout', {}, {
+        axios.post('https://api-dot-serious-mile-336513.ts.r.appspot.com//logout', {}, {
             withCredentials: true,
             headers: {
                 'Authorization': `Bearer ${token}`,

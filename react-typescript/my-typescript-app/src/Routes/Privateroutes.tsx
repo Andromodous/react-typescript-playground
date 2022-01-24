@@ -11,7 +11,7 @@ interface Props {
 const Privateroutes: React.FC<Props> = ({ component, authenticated }: Props) => {
     const [token, setToken] = FetchAuth();
     useEffect(() => {
-        axios.post('http://localhost:5000/authenticate', {}, {
+        axios.post(`https://api-dot-serious-mile-336513.ts.r.appspot.com//authenticate`, {}, {
             withCredentials: true,
             headers: {
                 'Authorization': `Bearer ${token}`,
