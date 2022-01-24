@@ -24,7 +24,7 @@ const Privateroutes: React.FC<Props> = ({ component, authenticated }: Props) => 
         })
     })
     const location = useLocation();
-    return token ? component : <Navigate to='/login' state={{ from: location.pathname, message: "you must sign in to look at cart" }} />
+    return token ? component : <Navigate to='/login' state={{ from: location.pathname, message: "you must sign in to access checkout" }} />
 }
 
 

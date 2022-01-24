@@ -86,7 +86,7 @@ app.post('/authenticate', (req: Request, res: Response) => {
         res.status(200).json({ token, valid: true });
     }
     catch (e) {
-        res.status(401).json({ error: e.message, valid: false });
+        res.clearCookie('token').status(401).json({ error: e.message, valid: false });
     }
 })
 

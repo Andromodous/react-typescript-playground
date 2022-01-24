@@ -41,16 +41,16 @@ const App: React.FC = () => {
                     <Context.Provider value={[basket, setBasket]}>
                         <Router>
                             <Header />
-                            <div style={{minHeight : 'calc(85vh - 100px)', overflowX : 'hidden'}}>
-                            <Routes>
-                                <Route path="/" element={<Todo />} />
-                                <Route path="/cart" element={<Privateroutes component={<Cart />} />} />
-                                <Route path="/cart/buy" element={<Privateroutes component={<CheckOut />} />} />
-                                <Route path="/login" element={<Protectedroutes component={<Login />} />} />
-                                <Route path="/logout" element={token ? <Logout /> : <Navigate to='/' />} />
-                                <Route path="/register" element={<Protectedroutes component={<Register />} />} />
-                                <Route path="*" element={<Error />} />
-                            </Routes>
+                            <div style={{ minHeight: 'calc(85vh - 100px)', overflowX: 'hidden' }}>
+                                <Routes>
+                                    <Route path="/" element={<Todo />} />
+                                    <Route path="/cart" element={<Cart />} />
+                                    <Route path="/cart/buy" element={<Privateroutes component={<CheckOut />} />} />
+                                    <Route path="/login" element={<Protectedroutes component={<Login />} />} />
+                                    <Route path="/logout" element={token ? <Logout /> : <Navigate to='/' />} />
+                                    <Route path="/register" element={<Protectedroutes component={<Register />} />} />
+                                    <Route path="*" element={<Error />} />
+                                </Routes>
                             </div>
                             <Footer />
                         </Router>

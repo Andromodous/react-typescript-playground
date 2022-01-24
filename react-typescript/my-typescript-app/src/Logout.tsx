@@ -18,7 +18,6 @@ const Logout = () => {
         }).then(() => {
             setTimeout(() => {
                 setToken("");
-                localStorage.removeItem('token');
                 navigate('/');
             }, 2000);
         });
