@@ -29,7 +29,7 @@ const Register = () => {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const response = await axios.post('https://api-dot-serious-mile-336513.ts.r.appspot.com//register', { username: user, password, age, gender }, {
+        const response = await axios.post('https://api-dot-serious-mile-336513.ts.r.appspot.com/register', { username: user, password, age, gender }, {
             withCredentials: true,
             headers: {
                 'content-type': 'application/json'
