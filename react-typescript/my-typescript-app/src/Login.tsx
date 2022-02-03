@@ -5,8 +5,8 @@ import Alert from '@mui/material/Alert'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
-import axios from 'axios'
-import fetchAuth from './utils/fetchAuth'
+import { signInWithEmailAndPassword, AuthError } from 'firebase/auth'
+import { auth } from './utils/firebase'
 
 interface Props {
     from?: string,
@@ -17,7 +17,7 @@ export const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
-    const [, setToken] = fetchAuth();
+    const [disable, setDisable] = useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -26,28 +26,25 @@ export const Login: React.FC = () => {
     const to = state?.from ? state.from : '/';
     const message = state?.message ? state.message : '';
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const response = await axios.post('https://api-dot-serious-mile-336513.ts.r.appspot.com/signin', { username: user, password }, {
-            withCredentials: true,
-            headers: {
-                'content-type': 'application/json'
-            }
-        });
+        setDisable(true);
         try {
             if (!user || !password) {
                 throw new Error('some fields are empty, please fill them in');
             }
-            if (response.data.error) {
-                throw new Error(response.data.error);
-            }
-            setUser('');
-            setPassword('');
-            setSuccess('You have been signed in');
-            setTimeout(() => {
-                setToken(response.data.token);
-                navigate(to as string, { replace: true });
-            }, 1000);
+            signInWithEmailAndPassword(auth, user, password).then(() => {
+                setUser('');
+                setPassword('');
+                setSuccess('You have been signed in');
+                setTimeout(() => {
+                    navigate(to as string, { replace: true });
+                }, 1000);
+            }).catch((e: AuthError) => {
+                setError(`username or password incorrect`);
+                setDisable(false);
+                setSuccess('');
+            })
         }
         catch (e: any) {
             setError(e.message);
@@ -75,7 +72,7 @@ export const Login: React.FC = () => {
                     </Alert>
                 </div>
                 <div style={{ width: '80%' }}>
-                    <Button type='submit' variant='contained' color='info' endIcon={<AccountCircleIcon />}>Login</Button>
+                    <Button type='submit' variant='contained' color='info' endIcon={<AccountCircleIcon />} disabled={disable}>Login</Button>
                     <span style={{ margin: '2%' }}>dont have an account? <Link to='/register'>Register here</Link></span>
                 </div>
             </form>

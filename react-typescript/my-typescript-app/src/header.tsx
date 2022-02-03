@@ -8,15 +8,15 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { Link } from 'react-router-dom'
 import FetchAuth from './utils/fetchAuth'
 import FetchCart from './utils/fetchCart'
+import { User } from 'firebase/auth'
 
 export default function Header() {
     const [cart] = FetchCart();
-    const [token] = FetchAuth();
-
+    const user = FetchAuth();
     return (
         <Box>
             <AppBar position="static">
-                <Toolbar sx={{justifyContent : 'space-evenly'}}>
+                <Toolbar sx={{ justifyContent: 'space-evenly' }}>
                     <Typography variant="h6" component="span" sx={{ flexGrow: 1 }} id='site-name'>
                         Appak Estate
                     </Typography>
@@ -27,7 +27,7 @@ export default function Header() {
                         </Badge>
                     }
                     <Button color="inherit" ><Link style={{ color: "white", textDecoration: "none" }} to="/cart">cart</Link></Button>
-                    {token.length > 0 ?
+                    {user as User ?
                         <Button color="inherit" ><Link style={{ color: "white", textDecoration: "none" }} to="/logout">logout</Link></Button>
                         :
                         <>

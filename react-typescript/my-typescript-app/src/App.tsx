@@ -14,10 +14,13 @@ import Privateroutes from './Routes/Privateroutes'
 import Protectedroutes from './Routes/Protectedroutes'
 import Logout from './Logout'
 import Footer from './Footer'
+import { auth } from './utils/firebase'
+import { onAuthStateChanged, User } from 'firebase/auth'
 
 const App: React.FC = () => {
     const [basket, setBasket] = React.useState<Product[]>([])
-    const [token, setToken] = React.useState<string>("");
+    const [user, setUser] = React.useState<User>();
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     useEffect(() => {
         if (localStorage.getItem('cart') !== null) {
@@ -34,22 +37,32 @@ const App: React.FC = () => {
         }
     }, [basket])
 
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            setUser(user as User);
+            setLoading(false);
+        })
+    })
+
     return (
         <>
             <ErrorBoundary>
-                <AuthContext.Provider value={[token, setToken]}>
+                <AuthContext.Provider value={user as User}>
                     <Context.Provider value={[basket, setBasket]}>
                         <Router>
                             <Header />
                             <div style={{ minHeight: 'calc(85vh - 100px)', overflowX: 'hidden' }}>
                                 <Routes>
-                                    <Route path="/" element={<Todo />} />
-                                    <Route path="/cart" element={<Cart />} />
-                                    <Route path="/cart/buy" element={<Privateroutes component={<CheckOut />} />} />
-                                    <Route path="/login" element={<Protectedroutes component={<Login />} />} />
-                                    <Route path="/logout" element={token ? <Logout /> : <Navigate to='/' />} />
-                                    <Route path="/register" element={<Protectedroutes component={<Register />} />} />
-                                    <Route path="*" element={<Error />} />
+                                    {!loading && <>
+                                        <Route path="/" element={<Todo />} />
+                                        <Route path="/cart" element={<Cart />} />
+                                        <Route path="/cart/buy" element={<Privateroutes component={<CheckOut />} />} />
+                                        <Route path="/login" element={<Protectedroutes component={<Login />} />} />
+                                        <Route path="/logout" element={user ? <Logout /> : <Navigate to='/' />} />
+                                        <Route path="/register" element={<Protectedroutes component={<Register />} />} />
+                                        <Route path="*" element={<Error />} />
+                                    </>
+                                    }
                                 </Routes>
                             </div>
                             <Footer />
