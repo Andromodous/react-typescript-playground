@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import LinearProgress from '@mui/material/LinearProgress'
-import { Auth, signOut } from 'firebase/auth'
+import { signOut } from 'firebase/auth'
 import { auth } from './utils/firebase'
 import { useState } from 'react'
 import { AuthError } from 'firebase/auth'
