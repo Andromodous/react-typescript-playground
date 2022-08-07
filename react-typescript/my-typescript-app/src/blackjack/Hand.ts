@@ -7,12 +7,14 @@ export class Hand {
         this.hand = Hand;
     }
 
-    current(): number { //function
+    current(): number {  
         let total: number = 0;
+        let aceExists = false;
         for (const card of this.hand) {
             switch (card.value) {
                 case 1:
-                    21 - 11 >= total ? total += 11 : total += 1;
+                    10 >= total ? total += 11 : total += 1;
+                    aceExists = true;
                     break;
                 case 11: case 12: case 13:
                     total += 10;
@@ -22,13 +24,12 @@ export class Hand {
                     break;
             }
         }
+        if (aceExists && total > 21) total -= 10;
         return total;
     }
 
-    bust(): boolean { //function
-        const total : number = this.current();
-        const bust : boolean = total > 21 ? true : false;
-        return bust;
+    bust(): boolean {  
+        return this.current() > 21;
     }
 
     toString() {
@@ -37,5 +38,22 @@ export class Hand {
 
     add(card: Card) {
         this.hand = [...this.hand, card];
+    }
+
+    private has(value: number): boolean {
+        for (const card of this.hand) {
+            if (card.cardValue() === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    blackJack(): boolean {
+        return this.has(1) && this.has(10);
+    }
+
+    beat(hand: Hand): boolean {
+        return this.current() > hand.current();
     }
 }

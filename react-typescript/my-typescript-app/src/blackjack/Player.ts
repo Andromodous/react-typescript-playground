@@ -8,6 +8,7 @@ export interface User {
     addCard(deck: Deck): void;
     bust(): boolean;
     current(): number;
+    beat(hand?: Hand) : boolean;
 }
 
 export class Player implements User {
@@ -31,7 +32,11 @@ export class Player implements User {
         return this.hand.current();
     }
 
-    haveTurn(deck: Deck, play: String): void {
+    beat(hand : Hand) : boolean {
+        return this.hand.beat(hand);
+    }
+
+    haveTurn(deck: Deck, play: String = 'hit'): void {
         switch (play) {
             case 'hit':
                 this.addCard(deck);

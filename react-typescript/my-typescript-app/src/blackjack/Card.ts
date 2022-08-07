@@ -21,26 +21,33 @@ export class Card {
         return this._suit;
     }
 
+    cardValue(): number {
+        if (this._value > 10) {
+            return 10;
+        }
+        return this._value;
+    }
+
     toString() {
-        let value : String | number = 'A';
-        switch(this._value) {
-            case 1 :
+        let value: String | number = 'A';
+        switch (this._value) {
+            case 1:
                 value = 'A'
                 break;
-            case 11 :
+            case 11:
                 value = 'J';
                 break;
-            case 12 : 
+            case 12:
                 value = 'Q';
                 break;
-            case 13 : 
+            case 13:
                 value = 'K';
                 break;
         }
         switch (this._suit) {
             case 1:
                 return `${value}H`;
-            case 2: 
+            case 2:
                 return `${value}D`;
             case 3:
                 return `${value}C`;

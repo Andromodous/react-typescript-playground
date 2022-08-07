@@ -2,6 +2,7 @@ import { Card, Suit } from './Card'
 
 export class Deck {
     deck : Card[] = [];
+    cardsInUse : Set<Card> = new Set<Card>();
 
     constructor() {
         for(let i = 1; i <= 13; i++) { 
@@ -19,12 +20,16 @@ export class Deck {
         }
     }
 
-    select(): Card {
-        const chosen : number = Math.floor(Math.random() * this.deck.length);
-        const card : Card = this.deck[chosen];
-        this.deck.filter((_, index) => {
-           return index !== chosen;
-        })
+    select(): Card { 
+        //this improved implementation uses a Set for O(1) lookup but will have O(n) space
+        var card : Card | null = null;
+        do {
+            const chosen : number = Math.floor(Math.random() * this.deck.length);
+            card = this.deck[chosen];
+        }
+        while(this.cardsInUse.has(card)) {
+        }
+        this.cardsInUse.add(card);
         return card;
     }
 
