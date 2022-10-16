@@ -6,7 +6,6 @@ import Header from './header'
 import Cart, { Product } from './cart'
 import ErrorBoundary from './ErrorBoundary'
 import CheckOut from './checkout'
-import BlackJack from './BlackJack'
 import Error from './Error'
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom"
 import { Login } from './Login'
@@ -39,11 +38,17 @@ const App: React.FC = () => {
     }, [basket])
 
     useEffect(() => {
+        let subscribed = true;
         onAuthStateChanged(auth, (user) => {
-            setUser(user as User);
-            setLoading(false);
+            if (subscribed) {
+                setUser(user as User);
+                setLoading(false);
+            }
         })
-    })
+        return () => {
+            subscribed = false; //cancel subscription
+        }
+    }, [])
 
     return (
         <>
@@ -61,7 +66,6 @@ const App: React.FC = () => {
                                         <Route path="/login" element={<Protectedroutes component={<Login />} />} />
                                         <Route path="/logout" element={user ? <Logout /> : <Navigate to='/' />} />
                                         <Route path="/register" element={<Protectedroutes component={<Register />} />} />
-                                        <Route path="/blackjack" element={<BlackJack />} />
                                         <Route path="*" element={<Error />} />
                                     </>
                                     }
