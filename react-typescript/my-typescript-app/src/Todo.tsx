@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined'
+import { Photopop } from './Photopop'
 
 interface Props {
     name: string,
@@ -38,6 +39,9 @@ export default function Todo() {
                         <Button variant="contained" type="submit">Submit Item here</Button>
                     </form>
                     <List todo={Todo} remove={(item) => setTodo(Todo.filter((todo: string) => todo !== item))} />
+                </Grid>
+                <Grid item xs={12} sx={{ p: 2 }} justifyContent="center">
+                    <Photopop />
                 </Grid>
             </Grid>
         </>
