@@ -1,4 +1,3 @@
-import canvas from './utils/ps-canvas.png'
 import Grid from '@mui/material/Grid'
 import Chip from '@mui/material/Chip'
 import Button from '@mui/material/Button'
@@ -57,7 +56,7 @@ export function Photopop() {
                 </div>
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
-                <img src={canvas} alt='my-ps-canvas' width="100%" />
+                <img src='https://storage.googleapis.com/my-ecommerce-image-assets-project/068dfe3d6b1a8abb11629455b45577d8' alt='my-ps-canvas' width="100%" />
             </Grid>
         </Grid>
     </>

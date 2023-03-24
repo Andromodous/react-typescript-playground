@@ -12,7 +12,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import fetchCart from './utils/fetchCart'
-
+import Container from '@mui/material/Container'
 
 // use fake mock data API
 // https://jsonplaceholder.typicode.com/
@@ -55,13 +55,18 @@ const Cart: React.FC = () => {
     return (
         <>
             <Grid container sx={{ p: 2 }} spacing={2} >
-                <Grid item xs={12} md={6} lg={3}>
-                    <Card raised >
+                <Grid item xs={12} md={6} lg={3} >
+                    <Card sx={{ height: '100%', position: 'relative' }}>
                         <CardContent sx={{ textAlign: 'center' }}>
                             MacBook Pro 14″
                         </CardContent>
-                        <CardActions>
-                            <Button size='small' style={{ margin: '0 auto' }} endIcon={<AddShoppingCartIcon />}
+                        <CardActions sx={{ padding: 3 }}>
+                            <Container>
+                                <img src='https://storage.googleapis.com/my-ecommerce-image-assets-project/31736ae561b6a66a9eaa1a9a6beceaf9' alt='macbook-pro' width='100%' />
+                            </Container>
+                        </CardActions>
+                        <Container sx={{ textAlign: 'center', padding: 1, position: 'absolute', bottom: 0 }}>
+                            <Button size='medium' endIcon={<AddShoppingCartIcon />}
                                 onClick={() => {
                                     addToCart({
                                         productID: 1,
@@ -71,17 +76,23 @@ const Cart: React.FC = () => {
                                         description: 'The Apple M1 chip gives the 13‑inch MacBook Pro speed and power beyond belief. With up to 2.8x CPU performance. Up to 5x the graphics speed. Our most advanced Neural Engine for up to 11x faster machine learning. And up to 20 hours of battery life so you can go all day. It’s our most popular pro notebook, taken to a whole new level.',
                                         company: 'apple'
                                     })
-                                }}>Add to Cart</Button>
-                        </CardActions>
+                                }}>Add to Cart
+                            </Button>
+                        </Container>
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <Card raised >
+                    <Card sx={{ height: '100%', position: 'relative' }}>
                         <CardContent sx={{ textAlign: 'center' }}>
                             ASTRO A10 Gaming Headset
                         </CardContent>
-                        <CardActions>
-                            <Button size='small' style={{ margin: '0 auto' }} endIcon={<AddShoppingCartIcon />}
+                        <CardActions sx={{ padding: 3 }}>
+                            <Container >
+                                <img src='https://storage.googleapis.com/my-ecommerce-image-assets-project/7233db176a5a44621fb48d1db15931fd' alt='astro-a10-gaming' width='100%' />
+                            </Container>
+                        </CardActions>
+                        <Container sx={{ textAlign: 'center', padding: 1, position: 'absolute', bottom: 0 }}>
+                            <Button size='medium' endIcon={<AddShoppingCartIcon />}
                                 onClick={() => {
                                     addToCart({
                                         productID: 2,
@@ -91,17 +102,23 @@ const Cart: React.FC = () => {
                                         description: 'A10 Headset features durable construction and extended comfort so you can play longer with no down-time. A 3.5mm jack provides compatibility with nearly any device including most mobile phones and tablets. The A10 Headset is tuned for gaming with ASTRO Audio, ensuring you hear your game and your teammates with clarity and precision.',
                                         company: 'ASTRO'
                                     })
-                                }}>Add to Cart</Button>
-                        </CardActions>
+                                }}>Add to Cart
+                            </Button>
+                        </Container>
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <Card raised >
+                    <Card sx={{ height: '100%', position: 'relative' }}>
                         <CardContent sx={{ textAlign: 'center' }}>
                             Logitech G703 Wireless Mouse
                         </CardContent>
-                        <CardActions>
-                            <Button size='small' style={{ margin: '0 auto' }} endIcon={<AddShoppingCartIcon />}
+                        <CardActions sx={{ padding: 3 }}>
+                            <Container >
+                                <img src='https://storage.googleapis.com/my-ecommerce-image-assets-project/bbf109fad7b887536a06e54bed166506' alt='logitech-g703' width='100%' />
+                            </Container>
+                        </CardActions>
+                        <Container sx={{ textAlign: 'center', padding: 1, position: 'absolute', bottom: 0 }}>
+                            <Button size='medium' endIcon={<AddShoppingCartIcon />}
                                 onClick={() => {
                                     addToCart({
                                         productID: 3,
@@ -111,17 +128,23 @@ const Cart: React.FC = () => {
                                         company: 'logitech',
                                         description: ' Next generation optical gaming sensor with 1:1 tracking, 400+ IPS and 100 25 600 max DPI sensitivity plus zero smoothing, filtering or acceleration, and 10x the power efficiency of previous gen'
                                     })
-                                }}>Add to Cart</Button>
-                        </CardActions>
+                                }}>Add to Cart
+                            </Button>
+                        </Container>
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <Card raised >
+                    <Card sx={{ height: '100%', position: 'relative' }}>
                         <CardContent sx={{ textAlign: 'center' }}>
                             amazon alexa
                         </CardContent>
-                        <CardActions>
-                            <Button size='small' style={{ margin: '0 auto' }} endIcon={<AddShoppingCartIcon />}
+                        <CardActions sx={{ padding: 3 }}>
+                            <Container>
+                                <img src='https://storage.googleapis.com/my-ecommerce-image-assets-project/cd6e494570b3c3184e7603b873de53ed' alt='amazon-alexa' width='100%' />
+                            </Container>
+                        </CardActions>
+                        <Container sx={{ textAlign: 'center', padding: 1, position: 'absolute', bottom: 0 }}>
+                            <Button size='medium' endIcon={<AddShoppingCartIcon />}
                                 onClick={() => {
                                     addToCart({
                                         productID: 4,
@@ -131,8 +154,9 @@ const Cart: React.FC = () => {
                                         company: 'amazon',
                                         description: 'Meet Echo Dot - Our most popular smart speaker with Alexa. The sleek, compact design delivers crisp vocals and balanced bass for full sound.'
                                     })
-                                }}>Add to Cart</Button>
-                        </CardActions>
+                                }}>Add to Cart
+                            </Button>
+                        </Container>
                     </Card>
                 </Grid>
             </Grid>
