@@ -8,6 +8,7 @@ import BurstModeIcon from '@mui/icons-material/BurstMode'
 import Alert from '@mui/material/Alert'
 import PaidIcon from '@mui/icons-material/Paid'
 
+
 export function Photopop() {
     return (<>
         <Grid container width="100%" spacing={2}>
@@ -23,9 +24,9 @@ export function Photopop() {
                 <Chip label="special requests" variant='outlined' color='primary' style={{ fontSize: 16, margin: 4 }} />
                 <Stack direction="row" divider={<Divider orientation='vertical' flexItem />} spacing={2} sx={{ p: 1 }}>
                     <BurstModeIcon color="success" />
-                    <p >
+                    <h5>
                         1 OR MORE PICTURES
-                    </p>
+                    </h5>
                 </Stack>
                 <Stack direction="row" divider={<Divider orientation='vertical' flexItem />} spacing={2} sx={{ p: 1 }}>
                     <FileDownloadDoneIcon color="success" />
